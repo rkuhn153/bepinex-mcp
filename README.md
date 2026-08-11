@@ -87,6 +87,23 @@ Stable selectors for profiles/watchers use scene + hierarchy path (`Name[sibling
 - Unity game with **BepInEx 5 (Mono)** or **BepInEx 6 IL2CPP**
 - .NET SDK to build plugins
 
+## Compatibility
+
+### Mono plugin (`plugins/` → `BepInExMCP.dll`) — stable
+
+| | |
+|--|--|
+| **Loader** | [BepInEx 5](https://docs.bepinex.dev/) **Unity Mono** (x64 Windows is the usual case) |
+| **Not for** | IL2CPP games (use the IL2CPP plugin instead) |
+| **Compile** | `netstandard2.0`, `UnityEngine.Modules` **5.6** stubs, BepInEx 5.*, HarmonyX |
+| **Unity APIs used** | Long-stable surface only (`Resources.FindObjectsOfTypeAll`, `SceneManager`, `GetComponent*`, etc.) — no Unity 2023+ only APIs |
+
+**Practical Unity range:** any **Mono** player that **BepInEx 5 can inject**. That covers the common shipping window of roughly **Unity 2018–2022** (and many 2019/2020.3 LTS titles). Older Unity 5.x *can* work if BepInEx 5 still loads the game; very new Mono builds usually work if BepInEx does.
+
+There is **no single “Unity 2021.3 only” pin** — the hard gate is **Mono + BepInEx 5**, not a specific editor version string. If BepInEx 5’s own pack for that game works, this plugin is intended to load.
+
+**IL2CPP:** separate assembly; build needs that game’s `BepInEx/interop` — see [`plugins/README.IL2CPP.md`](plugins/README.IL2CPP.md). Validated earlier against **Unity 2022.3** + BepInEx 6 be.785; other IL2CPP versions depend on BepInEx/interop, not a universal DLL.
+
 ## Quick start
 
 ### 1. Build & install a plugin
