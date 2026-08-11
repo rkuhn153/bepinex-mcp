@@ -30,7 +30,7 @@ dotnet build -c Release
 # Copy bin/Release/netstandard2.0/BepInExMCP.dll → <Game>/BepInEx/plugins/
 ```
 
-**IL2CPP (BepInEx 6):** see [`plugins/README.IL2CPP.md`](plugins/README.IL2CPP.md).
+**IL2CPP (BepInEx 6):** needs a game’s `BepInEx/interop` after one launch — see [`plugins/README.IL2CPP.md`](plugins/README.IL2CPP.md).
 
 ### 2. Run the MCP server
 
