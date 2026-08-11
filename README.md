@@ -89,32 +89,20 @@ Stable selectors for profiles/watchers use scene + hierarchy path (`Name[sibling
 
 ## Compatibility
 
-### Mono plugin (`plugins/` → `BepInExMCP.dll`) — stable
+### Mono plugin (`plugins/` → `BepInExMCP.dll`)
 
 | | |
 |--|--|
-| **Loader** | [BepInEx 5](https://docs.bepinex.dev/) **Unity Mono** (x64 Windows is the usual case) |
-| **Not for** | IL2CPP games (use the IL2CPP plugin instead) |
-| **Plugin TFM** | **`netstandard2.0`** (BepInEx 5.*, HarmonyX; compile stubs `UnityEngine.Modules` 5.6) |
-| **Unity APIs used** | Long-stable surface only (`Resources.FindObjectsOfTypeAll`, `SceneManager`, `GetComponent*`, etc.) |
+| **Runtime** | Unity **Mono** only (not IL2CPP) |
+| **Loader** | [BepInEx 5](https://docs.bepinex.dev/) for Unity Mono |
+| **Unity** | Games on **Unity 2018 or newer** (Mono / .NET Standard 2.0 player). Most 2019–2022 LTS titles are in this range. |
+| **Platform** | Windows x64 is the usual setup |
 
-**Clear .NET / Unity cutoff**
+Use this plugin when the game is Mono and BepInEx 5 installs cleanly. For **IL2CPP** games, use the IL2CPP plugin instead.
 
-| Game player | Typical Unity era | This Mono plugin |
-|-------------|-------------------|------------------|
-| **.NET Standard 2.0** / .NET 4.x Mono | **~Unity 2018.1+** (common through 2019–2022 LTS and many newer Mono titles) | **Supported** |
-| **.NET 3.5-only** Mono | Older Unity 5.x / early 2017-era titles | **Not targeted** (would need a separate `net35` build) |
-| **IL2CPP** | any | **Wrong plugin** → `BepInExMCP.IL2CPP` |
+### IL2CPP plugin (`plugins/BepInExMCP.IL2CPP/`)
 
-So the hard line is not “Unity 2021.3 only.” It is:
-
-1. **Mono** (not IL2CPP)  
-2. **BepInEx 5** can inject the game  
-3. Player can load **`netstandard2.0`** plugins → practically **Unity 2018+ Mono**
-
-If BepInEx 5’s pack for that game works and the player is netstandard2.0-capable, this plugin is intended to load. There is still no guarantee for every weird fork or heavily stripped build.
-
-**IL2CPP plugin:** separate assembly (`net6.0` + BepInEx 6). Build needs that game’s `BepInEx/interop` — see [`plugins/README.IL2CPP.md`](plugins/README.IL2CPP.md). Known pin: **BepInEx 6 be.785** / **Unity 2022.3**-class setups; not a universal DLL for every IL2CPP title.
+Separate build for BepInEx **6** IL2CPP. You need that game’s generated `BepInEx/interop` after one launch — see [`plugins/README.IL2CPP.md`](plugins/README.IL2CPP.md).
 
 ## Quick start
 
