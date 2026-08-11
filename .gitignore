@@ -1,0 +1,37 @@
+# Build
+**/bin/
+**/obj/
+**/build-refs/
+*.user
+*.suo
+*.pdb
+*.dll
+*.exe
+!tools/**/*.cs
+!tools/**/*.csproj
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# IDE / OS
+.idea/
+.vscode/
+.claude/
+.DS_Store
+Thumbs.db
+*.log
+*.pids
+
+# Local / tunnels
+tools/cloudflared.exe
+gemini-spark-url.txt
+.env
+agent.env
+
+# Nested IPC copies
+UnrealEngineMCP_IPC/

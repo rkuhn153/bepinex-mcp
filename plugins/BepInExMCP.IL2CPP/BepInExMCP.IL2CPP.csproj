@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>BepInExMCP.IL2CPP</AssemblyName>
+    <Product>MCP Helper Server for Unity IL2CPP</Product>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Il2CppInteropDir Condition="'$(Il2CppInteropDir)' == ''">$(BEPINEX_INTEROP_DIR)</Il2CppInteropDir>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>BepInExMCP.IL2CPP</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.785" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Il2CppInteropDir)' != ''">
+    <Reference Include="Il2Cppmscorlib" HintPath="$(Il2CppInteropDir)\Il2Cppmscorlib.dll" Private="false" />
+    <Reference Include="Il2CppSystem" HintPath="$(Il2CppInteropDir)\Il2CppSystem.dll" Private="false" />
+    <Reference Include="UnityEngine" HintPath="$(Il2CppInteropDir)\UnityEngine.dll" Private="false"
+               Condition="Exists('$(Il2CppInteropDir)\UnityEngine.dll')" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(Il2CppInteropDir)\UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="UnityEngine.SceneManagementModule"
+               HintPath="$(Il2CppInteropDir)\UnityEngine.SceneManagementModule.dll"
+               Private="false"
+               Condition="Exists('$(Il2CppInteropDir)\UnityEngine.SceneManagementModule.dll')" />
+  </ItemGroup>
+
+  <Target Name="ValidateIl2CppInteropReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="'$(Il2CppInteropDir)' == ''"
+           Text="Set Il2CppInteropDir (or BEPINEX_INTEROP_DIR) to a generated BepInEx\interop directory." />
+    <Error Condition="!Exists('$(Il2CppInteropDir)\Il2Cppmscorlib.dll')"
+           Text="Il2Cppmscorlib.dll was not found in Il2CppInteropDir: $(Il2CppInteropDir)" />
+    <Error Condition="!Exists('$(Il2CppInteropDir)\UnityEngine.CoreModule.dll')"
+           Text="UnityEngine.CoreModule.dll was not found in Il2CppInteropDir: $(Il2CppInteropDir)" />
+  </Target>
+</Project>
