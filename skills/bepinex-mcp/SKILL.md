@@ -3,15 +3,18 @@ name: bepinex-mcp
 description: >-
   Live Unity BepInEx bridge MCP (bepinex-mcp): scene search, component get/set,
   method calls, Harmony-style patches, watchers, profiles. Use when a Unity game is
-  running with the bridge plugin, or when applying/verifying mods after Mono RAG or
-  IL2CPP decompile research.
+  running with the bridge plugin. Only needs the bepinex-mcp plugin + Python MCP —
+  no RAG or IL2CPP decompiler required.
 ---
 
 # bepinex-mcp (live bridge)
 
 MCP server: **`bepinex-mcp`**. Same tool names for **Mono and IL2CPP**.
 
-For end-to-end mod requests (research + apply), also load **`unity-bepinex-modder`**.
+**This skill only needs this project:** in-game plugin + `ModdersHelperApp.py`.  
+You do **not** need `gamecode-rag` or `il2cpp-decompiler-agent` to change the live game.
+
+For multi-step “figure out the game then mod it” habits (still bridge-first), see **`unity-bepinex-modder`**. Optional external research tools are documented there.
 
 ## Always first
 
@@ -42,8 +45,8 @@ Instance IDs are temporary. For profiles, watchers, or anything that must surviv
 
 Path segments: `Name[siblingIndex]`. Re-resolve with `resolve_gameobject_selector`.
 
-### Discovery
-Prefer search over blind tree walking:
+### Discovery (no offline code index required)
+Find what to touch from the **running** game:
 
 - `search_gameobjects`, `find_objects_with_component`, `search_runtime_types`
 - `get_hierarchy_snapshot`, `list_root_gameobjects` / `list_children`

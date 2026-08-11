@@ -145,10 +145,10 @@ Agent skills (for Cursor / Grok / similar) live in [`skills/`](skills/):
 
 | Skill | Role |
 |--------|------|
-| [`skills/bepinex-mcp`](skills/bepinex-mcp/SKILL.md) | How to use live bridge tools correctly |
-| [`skills/unity-bepinex-modder`](skills/unity-bepinex-modder/SKILL.md) | Full workflow: research (Mono RAG / IL2CPP decompiler) → apply → verify |
+| [`skills/bepinex-mcp`](skills/bepinex-mcp/SKILL.md) | Live bridge tools (plugin + this MCP only) |
+| [`skills/unity-bepinex-modder`](skills/unity-bepinex-modder/SKILL.md) | End-to-end habits; research MCPs optional if you have them |
 
-Install: copy those folders into your client’s skills directory (see [`skills/README.md`](skills/README.md)).
+**Usable with just this repo.** Optional Mono RAG / IL2CPP decompiler MCPs are separate projects — skills do not require them (see [`skills/README.md`](skills/README.md)).
 
 ## Layout
 
