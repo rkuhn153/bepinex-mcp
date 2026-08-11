@@ -95,14 +95,26 @@ Stable selectors for profiles/watchers use scene + hierarchy path (`Name[sibling
 |--|--|
 | **Loader** | [BepInEx 5](https://docs.bepinex.dev/) **Unity Mono** (x64 Windows is the usual case) |
 | **Not for** | IL2CPP games (use the IL2CPP plugin instead) |
-| **Compile** | `netstandard2.0`, `UnityEngine.Modules` **5.6** stubs, BepInEx 5.*, HarmonyX |
-| **Unity APIs used** | Long-stable surface only (`Resources.FindObjectsOfTypeAll`, `SceneManager`, `GetComponent*`, etc.) — no Unity 2023+ only APIs |
+| **Plugin TFM** | **`netstandard2.0`** (BepInEx 5.*, HarmonyX; compile stubs `UnityEngine.Modules` 5.6) |
+| **Unity APIs used** | Long-stable surface only (`Resources.FindObjectsOfTypeAll`, `SceneManager`, `GetComponent*`, etc.) |
 
-**Practical Unity range:** any **Mono** player that **BepInEx 5 can inject**. That covers the common shipping window of roughly **Unity 2018–2022** (and many 2019/2020.3 LTS titles). Older Unity 5.x *can* work if BepInEx 5 still loads the game; very new Mono builds usually work if BepInEx does.
+**Clear .NET / Unity cutoff**
 
-There is **no single “Unity 2021.3 only” pin** — the hard gate is **Mono + BepInEx 5**, not a specific editor version string. If BepInEx 5’s own pack for that game works, this plugin is intended to load.
+| Game player | Typical Unity era | This Mono plugin |
+|-------------|-------------------|------------------|
+| **.NET Standard 2.0** / .NET 4.x Mono | **~Unity 2018.1+** (common through 2019–2022 LTS and many newer Mono titles) | **Supported** |
+| **.NET 3.5-only** Mono | Older Unity 5.x / early 2017-era titles | **Not targeted** (would need a separate `net35` build) |
+| **IL2CPP** | any | **Wrong plugin** → `BepInExMCP.IL2CPP` |
 
-**IL2CPP:** separate assembly; build needs that game’s `BepInEx/interop` — see [`plugins/README.IL2CPP.md`](plugins/README.IL2CPP.md). Validated earlier against **Unity 2022.3** + BepInEx 6 be.785; other IL2CPP versions depend on BepInEx/interop, not a universal DLL.
+So the hard line is not “Unity 2021.3 only.” It is:
+
+1. **Mono** (not IL2CPP)  
+2. **BepInEx 5** can inject the game  
+3. Player can load **`netstandard2.0`** plugins → practically **Unity 2018+ Mono**
+
+If BepInEx 5’s pack for that game works and the player is netstandard2.0-capable, this plugin is intended to load. There is still no guarantee for every weird fork or heavily stripped build.
+
+**IL2CPP plugin:** separate assembly (`net6.0` + BepInEx 6). Build needs that game’s `BepInEx/interop` — see [`plugins/README.IL2CPP.md`](plugins/README.IL2CPP.md). Known pin: **BepInEx 6 be.785** / **Unity 2022.3**-class setups; not a universal DLL for every IL2CPP title.
 
 ## Quick start
 
