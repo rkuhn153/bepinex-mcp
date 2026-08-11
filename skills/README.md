@@ -18,12 +18,12 @@ That is enough for live modding (discover objects, change values, Harmony-style 
 
 ## What does *not* ship here
 
-| External MCP | Purpose | Needed for bridge? |
-|--------------|---------|---------------------|
-| `gamecode-rag` | Semantic search over **dumped Mono** C# | No |
-| `il2cpp-decompiler-agent` | Static decompile of **IL2CPP** binaries | No |
+| External MCP | Repo | Purpose | Needed for bridge? |
+|--------------|------|---------|---------------------|
+| `gamecode-rag` | [gamecode-rag](https://github.com/rkuhn153/gamecode-rag) | Semantic search over **dumped Mono** C# | No |
+| `il2cpp-decompiler-agent` | [il2cpp-decompiler](https://github.com/rkuhn153/il2cpp-decompiler) | Static decompile of **IL2CPP** binaries (needs Il2CppDumper for dumps) | No |
 
-Those are **separate** tools. The orchestrator skill mentions them only as an optional “research then apply” path. If they are not installed, AIs should still work: **live discovery + bridge tools only**.
+Those are **separate** tools in the same suite. The orchestrator skill mentions them only as an optional “research then apply” path. If they are not installed, AIs should still work: **live discovery + bridge tools only**.
 
 ## Install (Cursor / Grok-style)
 

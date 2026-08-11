@@ -165,12 +165,13 @@ Agent skills (for Cursor / Grok / similar) live in [`skills/`](skills/):
 | [`skills/bepinex-mcp`](skills/bepinex-mcp/SKILL.md) | Live bridge tools (plugin + this MCP only) |
 | [`skills/unity-bepinex-modder`](skills/unity-bepinex-modder/SKILL.md) | End-to-end habits; research MCPs optional if you have them |
 
-**Usable with just this repo.** Optional research:
+**Usable with just this repo** (live bridge only). Optional research MCPs from the same suite:
 
-| MCP | Repo |
-|-----|------|
-| Mono code search | [gamecode-rag](https://github.com/rkuhn153/gamecode-rag) |
-| IL2CPP decompile | separate tool (not this org yet) |
+| Need | Repo |
+|------|------|
+| Live get/set/patch (this) | [bepinex-mcp](https://github.com/rkuhn153/bepinex-mcp) |
+| Mono code search (offline) | [gamecode-rag](https://github.com/rkuhn153/gamecode-rag) |
+| IL2CPP static decompile | [il2cpp-decompiler](https://github.com/rkuhn153/il2cpp-decompiler) (needs [Il2CppDumper](https://github.com/Perfare/Il2CppDumper) for dumps) |
 
 Skills do not require research MCPs (see [`skills/README.md`](skills/README.md)).
 
