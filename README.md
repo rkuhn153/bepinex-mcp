@@ -139,12 +139,24 @@ args = [
 enabled = true
 ```
 
+## AI skills
+
+Agent skills (for Cursor / Grok / similar) live in [`skills/`](skills/):
+
+| Skill | Role |
+|--------|------|
+| [`skills/bepinex-mcp`](skills/bepinex-mcp/SKILL.md) | How to use live bridge tools correctly |
+| [`skills/unity-bepinex-modder`](skills/unity-bepinex-modder/SKILL.md) | Full workflow: research (Mono RAG / IL2CPP decompiler) → apply → verify |
+
+Install: copy those folders into your client’s skills directory (see [`skills/README.md`](skills/README.md)).
+
 ## Layout
 
 ```
 bepinex-mcp/
   plugins/     # Mono + IL2CPP BepInEx plugins
   mcp/         # FastMCP Python server
+  skills/      # Agent skill markdown for AI clients
   README.md
   LICENSE
   .gitignore
