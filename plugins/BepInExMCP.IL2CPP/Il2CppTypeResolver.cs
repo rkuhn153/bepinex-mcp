@@ -46,12 +46,59 @@ internal sealed class Il2CppTypeResolver : IDisposable
     {
         this.log = log;
 
+        // Il2CppInterop loads generated game assemblies lazily; at plugin load time
+        // Assembly-CSharp et al. are not yet in the AppDomain, so nothing would index them.
+        // Force-load every interop assembly once up front.
+        PreloadInteropAssemblies();
+
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
             IndexAssembly(assembly);
         }
 
         AppDomain.CurrentDomain.AssemblyLoad += OnAssemblyLoad;
+    }
+
+    private void PreloadInteropAssemblies()
+    {
+        try
+        {
+            var interopDir = System.IO.Path.Combine(BepInEx.Paths.BepInExRootPath, "interop");
+            if (!System.IO.Directory.Exists(interopDir))
+            {
+                log.LogWarning($"Interop directory not found: {interopDir}");
+                return;
+            }
+
+            var loaded = 0;
+            foreach (var file in System.IO.Directory.GetFiles(interopDir, "*.dll"))
+            {
+                var name = System.IO.Path.GetFileNameWithoutExtension(file);
+                try
+                {
+                    _ = Assembly.Load(name);
+                    loaded++;
+                }
+                catch
+                {
+                    try
+                    {
+                        _ = Assembly.LoadFrom(file);
+                        loaded++;
+                    }
+                    catch (Exception exception)
+                    {
+                        log.LogDebug($"Skipping interop assembly {name}: {exception.Message}");
+                    }
+                }
+            }
+
+            log.LogInfo($"Preloaded {loaded} interop assemblies for type indexing.");
+        }
+        catch (Exception exception)
+        {
+            log.LogWarning($"Interop preload failed: {exception.Message}");
+        }
     }
 
     public void Dispose()
