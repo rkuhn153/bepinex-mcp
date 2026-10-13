@@ -87,7 +87,8 @@ MCP_PORT = int(args.port or 8000)
 # accepted and wins if both flags are passed.
 HEADLESS = (not bool(args.gui)) or bool(args.headless)
 
-HELPER_BASE_URL = f"http://{GAME_IP}:8080/mcp"
+GAME_PORT = int(os.environ.get("UNITY_MCP_GAME_PORT", "8080"))
+HELPER_BASE_URL = f"http://{GAME_IP}:{GAME_PORT}/mcp"
 bridge_client = BridgeClient(HELPER_BASE_URL)
 profile_store = ProfileStore(args.profiles_dir or default_profiles_dir())
 # --- NEW: Thread-Safe Job Queue ---

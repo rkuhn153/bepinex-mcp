@@ -285,13 +285,35 @@ internal sealed class Il2CppGameBackend
             .ToArray();
     }
 
+    // Unity 2020.3 interop only exposes the non-generic Resources.FindObjectsOfTypeAll(Type);
+    // this shim returns typed GameObjects so the call sites below compile against older engines.
+    private static IEnumerable<GameObject> AllGameObjects()
+    {
+        var objects = Resources.FindObjectsOfTypeAll(Il2CppInterop.Runtime.Il2CppType.From(typeof(GameObject)));
+        if (objects is null)
+        {
+            yield break;
+        }
+
+        for (var i = 0; i < objects.Length; i++)
+        {
+            var obj = objects[i];
+            if (obj is null || obj.Pointer == IntPtr.Zero)
+            {
+                continue;
+            }
+
+            yield return new GameObject(obj.Pointer);
+        }
+    }
+
     internal IReadOnlyList<SimpleGameObject> FindObjectsWithComponent(string componentName)
     {
         var requestedType = typeResolver.ResolveRequired(componentName);
         var result = new List<SimpleGameObject>();
         var seen = new HashSet<int>();
 
-        foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+        foreach (var gameObject in AllGameObjects())
         {
             if (gameObject is null ||
                 (!gameObject.scene.IsValid() && gameObject.hideFlags == HideFlags.None))
@@ -337,7 +359,7 @@ internal sealed class Il2CppGameBackend
         var result = new List<GameObjectSearchResult>(Math.Min(limit, 128));
         var truncated = false;
 
-        foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+        foreach (var gameObject in AllGameObjects())
         {
             if (gameObject is null ||
                 (!gameObject.scene.IsValid() && gameObject.hideFlags == HideFlags.None))
@@ -433,7 +455,7 @@ internal sealed class Il2CppGameBackend
         ArgumentNullException.ThrowIfNull(selector);
         var matches = new List<GameObject>();
 
-        foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+        foreach (var gameObject in AllGameObjects())
         {
             if (gameObject is null ||
                 (!gameObject.scene.IsValid() && gameObject.hideFlags == HideFlags.None))
@@ -703,7 +725,7 @@ internal sealed class Il2CppGameBackend
 
     internal GameObject FindObjectById(int instanceId)
     {
-        foreach (var gameObject in Resources.FindObjectsOfTypeAll<GameObject>())
+        foreach (var gameObject in AllGameObjects())
         {
             if (gameObject is not null && gameObject.GetInstanceID() == instanceId)
             {
